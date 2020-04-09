@@ -12,6 +12,7 @@ contract Bank {
         owner = msg.sender;
     }
 
+
     // tool 0
     function getUserCount() external view returns(uint256) {
         return usersList.length;
@@ -65,12 +66,18 @@ contract Bank {
 
     }
 
+
+    event depositEvent(address depoAddress, uint depoAmount);
+
     // 存錢
     function deposit() public payable returns(uint) {
         if (isEnrolled(msg.sender)) {
             if (msg.value >= 1 wei) {
                 moneyData[msg.sender] += msg.value;
                 asset += msg.value;
+                
+                emit depositEvent(msg.sender, msg.value);
+                
                 return getBalance();
             } else {
                 revert('請至少存入 1 wei.');
@@ -97,7 +104,7 @@ contract Bank {
 
     // 提錢
     function withdraw(uint withdrawAmount) public payable returns(uint) {
-        if (getBankBalance() != 0) {
+        if (getBalance() != 0) {
             if (withdrawAmount <= getBalance()) {
                 moneyData[msg.sender] -= withdrawAmount;
                 asset -= withdrawAmount;
@@ -106,7 +113,7 @@ contract Bank {
                 revert('你好像沒那麼多錢喔~');
             }
         } else {
-            revert('銀行系統維護中');
+            revert('你的銀行帳戶餘額為 0');
         }
     }
 
