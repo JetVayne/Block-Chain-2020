@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modify Layer 1</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+        <script type="text/javascript">
+            function setLayer1() {
+                var inputUserName = document.getElementById("name").value;
+                // alert("Set ! " + inputUserName);
+                document.getElementById("name").value = '';
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: 'http://3.87.137.58:8888/set_layer1?username='+ inputUserName,
+
+                        headers: { 'X-API-key' : '9jhy765ae128e45629ihbn292b2b3f19084ijygv'},
+
+                        success: function(data){
+                            console.log(data);
+                            alert('Set 成功 - ' + data);
+                        },
+
+                        error: function (error){
+                            console.log(data);
+                            alert("Set 失敗 - ", error);
+                        }
+
+                    }
+                )
+
+            }
+
+            function removeLayer1() {
+                var inputUserName = document.getElementById("name").value;
+                // alert("Remove ! " + inputUserName);
+                document.getElementById("name").value = '';
+                $.ajax(
+                    {
+                        type: 'DELETE',
+                        url: 'http://3.87.137.58:8888/remove_layer1?username='+ inputUserName,
+
+                        headers: { 'X-API-key' : '9jhy765ae128e45629ihbn292b2b3f19084ijygv'},
+
+                        success: function(data){
+                            console.log(data);
+                            alert('Remove 成功 - ' + data);
+                        },
+
+                        error: function (error){
+                            console.log(data);
+                            alert("Remove 失敗 - ", error);
+                        }
+
+                    }
+                )
+            }
+
+        </script>
+    </head>
+
+    <body>
+        <form name="form" id="form">
+            User Name：
+            <input type="text" name="name" id="name" />
+            <input type="button" name="set" value="Set" onclick="setLayer1()" />
+            <input type="button" name="remove" value="Remove" onclick="removeLayer1()" />
+        </form>
+    </body>
+</html>
